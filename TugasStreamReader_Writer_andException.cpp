@@ -99,3 +99,62 @@ void tambahBarang() {
         cout << "Unable to open file" << endl;
     }
 }
+
+// Update Data Barang di File (Update)
+void updateBarang() {
+    tampilkanGudang();
+    
+    ifstream infile("gudang.txt");
+    if (!infile.is_open()) {
+        cout << "Gagal membuka file atau gudang masih kosong!" << endl;
+        return;
+    }
+    
+    string daftarBaris[100];
+    int jumlahBaris = 0;
+    
+    while (getline(infile, daftarBaris[jumlahBaris])) {
+        if (!daftarBaris[jumlahBaris].empty()) {
+            jumlahBaris++;
+        }
+    }
+    infile.close();
+    
+    if (jumlahBaris == 0) {
+        cout << "Tidak ada data yang bisa diubah." << endl;
+        return;
+    }
+    
+    int pilihanNomor;
+    cout << "Masukkan nomor urut barang yang ingin DIUBAH: ";
+    cin >> pilihanNomor;
+    cin.ignore();
+    
+    if (pilihanNomor < 1 || pilihanNomor > jumlahBaris) {
+        cout << "Nomor barang tidak valid!" << endl;
+        return;
+    }
+    
+    // Input data baru
+    string namaBaru, hargaBaru, idBaru;
+    cout << "\n--- Masukkan Data Baru ---" << endl;
+    cout << "Masukkan ID Baru   : ";
+    cin >> idBaru;
+    cin.ignore();
+    cout << "Masukkan Nama Baru : ";
+    getline(cin, namaBaru);
+    cout << "Masukkan Harga Baru: ";
+    getline(cin, hargaBaru);
+    
+    // FIX: Sekarang sudah pakai operator + untuk gabungin string harganya
+    daftarBaris[pilihanNomor - 1] = idBaru + " | " + namaBaru + " | Rp." + hargaBaru;
+    
+    // Tulis ulang seluruh data dari array sementara ke file (menimpa file lama)
+    ofstream outfile("gudang.txt", ios::out);
+    for (int i = 0; i < jumlahBaris; i++) {
+        outfile << daftarBaris[i] << endl;
+    }
+    outfile.close();
+    
+    cout << "=> Data barang nomor " << pilihanNomor << " berhasil diperbarui!" << endl;
+}
