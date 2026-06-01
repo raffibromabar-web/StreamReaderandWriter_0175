@@ -69,3 +69,33 @@ void tampilkanGudang() {
     }
     cout << "===============================" << endl;
 }
+
+// Tambah Barang Baru ke File (Create)
+void tambahBarang() {
+    ofstream outfile;
+    // Membuka dengan mode app (append) supaya data baru tertulis di bawahnya, tidak menimpa data lama
+    outfile.open("gudang.txt", ios::app);
+    
+    if (outfile.is_open()) {
+        string namaBarang, hargaBarang, idBaris;
+        
+        cout << "\n--- Tambah Barang Baru ---" << endl;
+        cout << "Masukkan ID Barang   : ";
+        cin >> idBaris;
+        cin.ignore(); // Membersihkan buffer sebelum getline
+        
+        cout << "Masukkan Nama Barang : ";
+        getline(cin, namaBarang);
+        
+        cout << "Masukkan Harga       : ";
+        getline(cin, hargaBarang);
+        
+        // Format simpan simpel: ID | Nama | Harga
+        outfile << idBaris << " | " << namaBarang << " | Rp." << hargaBarang << endl;
+        
+        cout << "=> Barang berhasil ditambahkan ke gudang.txt!" << endl;
+        outfile.close();
+    } else {
+        cout << "Unable to open file" << endl;
+    }
+}
