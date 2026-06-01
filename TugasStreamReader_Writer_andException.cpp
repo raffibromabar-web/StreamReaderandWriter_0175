@@ -158,3 +158,49 @@ void updateBarang() {
     
     cout << "=> Data barang nomor " << pilihanNomor << " berhasil diperbarui!" << endl;
 }
+
+// Hapus Data Barang dari File (Delete)
+void hapusBarang() {
+    tampilkanGudang();
+    
+    ifstream infile("gudang.txt");
+    if (!infile.is_open()) {
+        cout << "Gagal membuka file atau gudang masih kosong!" << endl;
+        return;
+    }
+    
+    string daftarBaris[100];
+    int jumlahBaris = 0;
+    
+    while (getline(infile, daftarBaris[jumlahBaris])) {
+        if (!daftarBaris[jumlahBaris].empty()) {
+            jumlahBaris++;
+        }
+    }
+    infile.close();
+    
+    if (jumlahBaris == 0) {
+        cout << "Tidak ada data yang bisa dihapus." << endl;
+        return;
+    }
+    
+    int pilihanNomor;
+    cout << "Masukkan nomor urut barang yang ingin DIHAPUS: ";
+    cin >> pilihanNomor;
+    
+    if (pilihanNomor < 1 || pilihanNomor > jumlahBaris) {
+        cout << "Nomor barang tidak valid!" << endl;
+        return;
+    }
+    
+    // Tulis ulang data ke file KECUALI nomor baris yang dihapus
+    ofstream outfile("gudang.txt", ios::out);
+    for (int i = 0; i < jumlahBaris; i++) {
+        if (i != (pilihanNomor - 1)) {
+            outfile << daftarBaris[i] << endl;
+        }
+    }
+    outfile.close();
+    
+    cout << "=> Data barang nomor " << pilihanNomor << " berhasil dihapus dari gudang!" << endl;
+}
