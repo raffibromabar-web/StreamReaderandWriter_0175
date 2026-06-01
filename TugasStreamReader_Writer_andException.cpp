@@ -204,3 +204,32 @@ void hapusBarang() {
     
     cout << "=> Data barang nomor " << pilihanNomor << " berhasil dihapus dari gudang!" << endl;
 }
+
+// Simulasi Etalase Toko untuk testing Exception Handling
+void simulasiEtalase(TokoElektronik& toko) {
+    cout << "\n=== SIMULASI PENGUJIAN EXCEPTION HANDLING ===" << endl;
+    
+    // Skenario 1: Pengambilan barang di rak indeks ke-1 (Harus Sukses)
+    cout << "[Skenario 1] Mencoba mengambil barang di rak indeks ke-1..." << endl;
+    try {
+        string barang = toko.ambilProduk(1);
+        cout << "Hasil: Sukses mengambil -> " << barang << endl;
+    }
+    catch (const string& pesanError) {
+        cout << "Hasil: Catch string error -> " << pesanError << endl;
+    }
+    
+    cout << "--------------------------------------------------" << endl;
+    
+    // Skenario 2: Pengambilan barang di rak indeks ke-5 (Harus Gagal)
+    cout << "[Skenario 2] Mencoba mengambil barang di rak indeks ke-5..." << endl;
+    try {
+        string barang = toko.ambilProduk(5);
+        cout << "Hasil: Sukses mengambil -> " << barang << endl; 
+    }
+    catch (const string& pesanError) {
+        // Menangkap string pesan error kustom yang dilempar dari method ambilProduk
+        cout << "Hasil: Tangkap Error Kustom -> " << pesanError << endl;
+    }
+    cout << "====================================================\n" << endl;
+}
